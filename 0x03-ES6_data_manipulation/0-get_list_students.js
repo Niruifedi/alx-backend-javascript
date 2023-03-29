@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */
 const getListStudents = () => [
   {id: 1, firstName: 'Guillaume', location: 'San Francisco'},
   {id: 2, firstName: 'James', location: 'Columbia'},
