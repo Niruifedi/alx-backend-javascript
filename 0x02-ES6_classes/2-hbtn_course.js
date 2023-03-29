@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
-export default class HolbertonCourse {
+class HolbertonCourse {
   constructor(name, length, students) {
     if (typeof name !== 'string') {
       throw new TypeError('Name must be a string');
@@ -59,3 +59,4 @@ export default class HolbertonCourse {
     this._students = val;
   }
 }
+export default HolbertonCourse;
