@@ -1,27 +1,38 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable guard-for-in */
-/* eslint-disable max-len */
 const fs = require('fs');
 
-const countStudents = (path) => {
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
   try {
-    let data = fs.readFileSync(path, {encoding: 'utf-8', flag: 'r'}).split('\n');
-    data = data.slice(1, data.length);
-    console.log(`Number of students: ${data.length}`);
-
-    const fields = {};
-    for (const row of data) {
-      const students = row.split(',');
-      if (!fields[students[3]]) {
-        fields[students[3]] = [];
+    const fileContents = fs.readFileSync(fileName, 'utf-8');
+    const lines = fileContents.toString().split('\n');
+    for (let i = 0; i < lines.length; i += 1) {
+      if (lines[i]) {
+        length += 1;
+        const field = lines[i].toString().split(',');
+        if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+          students[field[3]].push(field[0]);
+        } else {
+          students[field[3]] = [field[0]];
+        }
+        if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+          fields[field[3]] += 1;
+        } else {
+          fields[field[3]] = 1;
+        }
       }
-      fields[students[3]].push(students[0]);
     }
-    for (const field in fields) {
-      console.log(`Number of students in ${field}: ${fields[field].length}. List: ${fields[field].join(', ')}`);
+    const l = length - 1;
+    console.log(`Number of students: ${l}`);
+    for (const [key, value] of Object.entries(fields)) {
+      if (key !== 'field') {
+        console.log(`Number of students in ${key}: ${value}. List: ${students[key].join(', ')}`);
+      }
     }
   } catch (error) {
-    throw new Error('Cannot load the database');
+    throw Error('Cannot load the database');
   }
-};
+}
+
 module.exports = countStudents;
